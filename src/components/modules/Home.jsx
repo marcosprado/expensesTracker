@@ -5,6 +5,7 @@
 /* eslint react-hooks/exhaustive-deps: 0*/
 
 import React from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import Overview from "./Overview";
 import Transaction from "./Transaction";
@@ -16,7 +17,9 @@ const Container = styled.div`
   margin: 30px 0 10px;
 `;
 
-export default function Home() {
+export default function Home(props) {
+  const [transactions, updateTransactions] = useState([]);
+
   return (
     <Container>
       <Overview />
