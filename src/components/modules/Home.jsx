@@ -4,14 +4,14 @@
 /* eslint no-unused-vars: 0*/
 /* eslint react-hooks/exhaustive-deps: 0*/
 
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import Overview from "./Overview";
 import Transaction from "./Transaction";
 
 const Container = styled.div`
   display: flex;
+
   flex-direction: column;
   align-items: center;
   margin: 30px 0 10px;
@@ -20,10 +20,17 @@ const Container = styled.div`
 export default function Home(props) {
   const [transactions, updateTransactions] = useState([]);
 
+  const addTransactionInArray = (payload) => {
+    const transactionsArray = [...transactions];
+    transactionsArray.push(payload);
+
+    updateTransactions(transactionsArray);
+  };
+
   return (
     <Container>
-      <Overview />
-      <Transaction />
+      <Overview addTransactionInArray={addTransactionInArray} />
+      <Transaction transactions={transactions} />
     </Container>
   );
 }
