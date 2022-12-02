@@ -36,6 +36,8 @@ const ExpenseIncomeContainer = styled.div`
   flex-direction: row;
   gap: 40px;
   margin: 20px;
+  width: 100%;
+  justify-content: space-between;
 `;
 
 const ExpenseBox = styled.div`
@@ -43,7 +45,7 @@ const ExpenseBox = styled.div`
   flex-direction: column;
   border-radius: 4px;
   border: 1px solid gray;
-  padding 15px 20px;
+  padding 10px 20px;
   gap: 5px;
   font-size: 14px;
 
@@ -61,7 +63,7 @@ const IncomeBox = styled.div`
   flex-direction: column;
   border-radius: 4px;
   border: 1px solid gray;
-  padding 15px 20px;
+  padding 10px 20px;
   gap: 5px;
   font-size: 14px;
   & span {
@@ -74,7 +76,7 @@ const IncomeBox = styled.div`
 const AddTransactionContainer = styled.div`
   display: flex;
   flex-direction: column;
-  border: 1px solid gray;
+  width: 100%;
   gap: 10px;
   margin-top: 10px;
   padding: 10px 20px;
@@ -95,15 +97,32 @@ const TransactionType = styled.div`
   justify-content: space-evenly;
 `;
 
+//end of styled components
+
+// the AddTransactionView Container is rendered when the "Add" button is clicked
 const AddTransactionView = (props) => {
+  // the states update whenever the inputs "Amount" and "Description" are changed
   const [amount, setAmount] = useState("");
   const [desc, setDesc] = useState("");
   const [type, setType] = useState("EXPENSE");
 
+  // Using the method received via props from the Home component, we check the forms information before adding the transaction
   const addTransaction = () => {
-    props.addTransactionInArray({ amount: Number(), desc, type, id: Date.now });
-    props.toggleAddBtn();
-    console.log({ amount, desc, type });
+    let checkTransaction = false;
+    checkTransaction = amount === "" ? false : desc === "" ? false : true;
+
+    if (checkTransaction) {
+      props.addTransactionInArray({
+        amount: Number(amount),
+        desc,
+        type,
+        id: Date.now,
+      });
+      props.toggleAddBtn();
+      console.log({ amount, desc, type });
+    } else {
+      alert("Fill in all fields to add transaction");
+    }
   };
 
   return (
@@ -145,12 +164,13 @@ const AddTransactionView = (props) => {
 };
 
 export default function Overview(props) {
+  // toggleAddBtn updates the state to expand or colapse the AddTransactionView
   const [isAddButtonVisible, toggleAddBtn] = useState(false);
 
   return (
     <Container>
       <BalanceBox>
-        Balance: R$ 2.000
+        Balance: ${props.income - props.expense}
         <AddButton onClick={() => toggleAddBtn(!isAddButtonVisible)}>
           {isAddButtonVisible ? "Cancel" : "ADD"}
         </AddButton>
@@ -163,11 +183,11 @@ export default function Overview(props) {
       )}
       <ExpenseIncomeContainer>
         <ExpenseBox>
-          Expense <span>$ 1000</span>
+          Expense <span>${props.expense}</span>
         </ExpenseBox>
 
         <IncomeBox>
-          Income <span> $ 5000</span>
+          Income <span> ${props.income}</span>
         </IncomeBox>
       </ExpenseIncomeContainer>
     </Container>
