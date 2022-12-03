@@ -9,6 +9,8 @@ const Container = styled.div`
   margin: 10px;
   align-items: center;
   width: 100%;
+  background-color: #ffd900;
+  padding: 22px 10px;
 `;
 
 const BalanceBox = styled.div`
@@ -22,8 +24,8 @@ const BalanceBox = styled.div`
 `;
 
 const AddButton = styled.button`
-  background: orange;
-  color: black;
+  background: black;
+  color: white;
   font-weight: bold;
   padding: 3px 8px;
   border-radius: 0.5rem;
@@ -34,10 +36,10 @@ const AddButton = styled.button`
 const ExpenseIncomeContainer = styled.div`
   display: flex;
   flex-direction: row;
-  gap: 40px;
+  gap: 20px;
   margin: 20px;
   width: 100%;
-  justify-content: space-between;
+  justify-content: space-evenly;
 `;
 
 const ExpenseBox = styled.div`
@@ -45,10 +47,10 @@ const ExpenseBox = styled.div`
   flex-direction: column;
   border-radius: 4px;
   border: 1px solid gray;
-  padding 10px 20px;
+  padding 10px 25px;
   gap: 5px;
   font-size: 14px;
-
+  background-color: white;
   & span {
     font-weight: bold;
     font-size: 18px;
@@ -63,9 +65,11 @@ const IncomeBox = styled.div`
   flex-direction: column;
   border-radius: 4px;
   border: 1px solid gray;
-  padding 10px 20px;
+  padding 10px 25px;
   gap: 5px;
   font-size: 14px;
+  background-color: white;
+
   & span {
     font-weight: bold;
     font-size: 18px;
@@ -111,7 +115,7 @@ const AddTransactionView = (props) => {
     let checkTransaction = false;
     checkTransaction = amount === "" ? false : desc === "" ? false : true;
 
-    if (checkTransaction) {
+    if (checkTransaction && Number(amount) >= 0) {
       props.addTransactionInArray({
         amount: Number(amount),
         desc,
@@ -121,7 +125,7 @@ const AddTransactionView = (props) => {
       props.toggleAddBtn();
       console.log({ amount, desc, type });
     } else {
-      alert("Fill in all fields to add transaction");
+      alert("Enter valid input. All fields are required to add transaction.");
     }
   };
 

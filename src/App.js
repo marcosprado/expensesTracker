@@ -9,7 +9,7 @@ const Container = styled.div`
 `;
 
 const Header = styled.span`
-  color: orange;
+  color: black;
   font-size: 25px;
   font-weight: bold;
 `;
