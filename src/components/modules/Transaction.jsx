@@ -43,6 +43,7 @@ const TransactionCell = (props) => {
   );
 };
 
+// iterates over transaction list and renders it on the page
 export default function Transaction(props) {
   return (
     <Container>
