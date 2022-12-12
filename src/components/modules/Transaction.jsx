@@ -1,4 +1,6 @@
-import React from "react";
+/* eslint react-hooks/exhaustive-deps: 0*/
+
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
 const Container = styled.div`
@@ -45,12 +47,38 @@ const TransactionCell = (props) => {
 
 // iterates over transaction list and renders it on the page
 export default function Transaction(props) {
+  const [filteredTransactions, updateFilter] = useState(props.transactions);
+  const [filterText, updateFilterText] = useState("");
+
+  const filterData = (filterText) => {
+    if (!filterText || !filterText.trim().length) {
+      updateFilter(props.transactions);
+      return;
+    }
+
+    let transactions = [...props.transactions];
+
+    transactions = transactions.filter((transaction) =>
+      transaction.desc.toLowerCase().includes(filterText.toLowerCase().trim())
+    );
+    updateFilter(transactions);
+  };
+
+  useEffect(() => filterData(filterText), [props.transactions]);
+
   return (
     <Container>
       Transactions
-      <input placeholder="Search" />
-      {props.transactions?.length
-        ? props.transactions.map((payload) => (
+      <input
+        placeholder="Filter"
+        value={filterText}
+        onChange={(e) => {
+          updateFilterText(e.target.value);
+          filterData(e.target.value);
+        }}
+      />
+      {filteredTransactions?.length
+        ? filteredTransactions.map((payload) => (
             <TransactionCell payload={payload}></TransactionCell>
           ))
         : ""}
